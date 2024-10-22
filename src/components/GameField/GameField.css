@@ -1,0 +1,14 @@
+.GameField{
+    display: flex;
+    flex-wrap: wrap;
+    gap:1px;
+    width: 360px;
+    height: 360px;
+    overflow-y: auto;
+    justify-content: center;
+}
+
+.GameField-emoji{
+    text-align: center;
+    padding: 0%;
+}

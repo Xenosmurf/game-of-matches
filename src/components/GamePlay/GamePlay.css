@@ -1,0 +1,38 @@
+.GamePlay{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.GamePlay-matches{
+    font-size: 30px;
+    font-weight: 500;
+    padding: 0;
+    margin: 1%;
+    color: #3834AC;
+}
+
+.GamePlay-score{
+    border-style:solid;
+    border-radius:30px;
+    padding: 2%
+}
+
+.GamePlay-score-container{
+    display:flex; 
+    justify-content:space-between; 
+    flex-direction:row; 
+    width: 100%;
+    max-width:360px; 
+    margin:2%;
+}
+
+.GamePlay-restart-button{
+     /* Position close button in overlay content */
+    top: 10px;
+    left: 10px;
+    margin: 2%;
+    background: transparent;
+    color: #FFB02E;
+    border: none;
+}
