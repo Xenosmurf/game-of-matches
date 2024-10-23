@@ -8,6 +8,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import RestartPopUp from "../RestartPopUp/RestartPopUp";
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import SettingsPage from "../SettingsPage/SettingsPage";
+import {useOnlineStatus, aiMove} from "../../customHooks/aiMove";
 //import { bober, kenguru, leveneia } from '../ImagesLinks';
 
 
@@ -19,62 +20,15 @@ function gameOver(amountOfMatches: number){
 }
 
 
-function veryNewMove(MAXIMUM_MOVE : number, AMOUNT_OF_MATCHES : number, PERELOM : number, COMPUTER_SUM :number, HUMAN_SUM : number, NEED_EVEN : boolean) : number {
 
-    if(MAXIMUM_MOVE > AMOUNT_OF_MATCHES) MAXIMUM_MOVE=AMOUNT_OF_MATCHES;
-    // console.log("max:" + MAXIMUM_MOVE);
-    // console.log("AMOUNT: " + AMOUNT_OF_MATCHES);
-
-    if(AMOUNT_OF_MATCHES <= PERELOM){
-        console.log("WHERE PERELOM MATTERS: " + PERELOM);
-        console.log("WHERE AMOUNT MATTERS: " + AMOUNT_OF_MATCHES);
-        console.log("WHERE MAXIMUM MATTERS: " + MAXIMUM_MOVE);
-        if(isOdd(COMPUTER_SUM)){
-            for(let j  = MAXIMUM_MOVE; j > 0; j--){
-                if( isEven(j + COMPUTER_SUM) && isOdd((AMOUNT_OF_MATCHES - j) + HUMAN_SUM)){
-                    return j;
-
-                }
-               
-            }
-        }
-        if(isEven(COMPUTER_SUM)){
-            for(let j = MAXIMUM_MOVE; j > 0; j--){
-                if( isEven(j)){
-                    return j;
-                }
-            }
-        }
-    }
-
-    if(AMOUNT_OF_MATCHES <= (PERELOM*2) && AMOUNT_OF_MATCHES > PERELOM){
-        for(let i = MAXIMUM_MOVE; i > 0; i--){
-                if(((AMOUNT_OF_MATCHES - i) % PERELOM) === 0){
-                     return i;
-                    
-                }
-            }
-    }
-
-    // 
-    for(let i = MAXIMUM_MOVE; i > 0; i--){
-        if(NEED_EVEN){
-            if(isEven(i+COMPUTER_SUM)) return i;
-        }
-        else{
-            if(isOdd(i+COMPUTER_SUM)) return i;
-
-        }
-    }
-
-    return 1;
-}
 
 function GamePlay(){
 
     // const gl_max = useMemo(() => {
     //     return GLOBAL_MAXIMUM;
     // }, [GLOBAL_MAXIMUM]);
+
+    const testMyHook = useOnlineStatus();
 
     const [amountToSet, setAmountToSet] = useState(25);
     const [maxToSet, setMaxToSet] = useState(3);
@@ -98,13 +52,13 @@ function GamePlay(){
 
     const [humanSum, setHumanSum] = useState(0);
     const [computerSum, setComputerSum] = useState(0);
+
     const [amountOfMatches, setAmountOfMatches] = useState(amountToSet);
+
     const [maximum, setMaximum] = useState(maxToSet);
 
     const [computerFirst, setComputerFirst] = useState(false);
-
     const [winner,setWinner] = useState("");
-
     const [userFirst, setUserFirst] = useState(userToSet);
 
     const perelom = useMemo(() => {
@@ -133,7 +87,7 @@ function GamePlay(){
             setError("You are trying to take too much. Maximum is " + maximum);
         }
         else if(userValueTakes < 1){
-            setError("Take at least 1");
+            setError(testMyHook.toString());
         }
         else{
             setError("");
@@ -166,7 +120,7 @@ function GamePlay(){
 
     const computerGo = async (can_go : boolean, amount : number) => {
         if(can_go){
-        const computerMove = veryNewMove(maximum, amount, perelom, computerSum, humanSum, need_even);
+        const computerMove = aiMove(maximum, amount, perelom, computerSum, humanSum, need_even);
         setAmountOfMatches(amount-computerMove);
     
         setComputerSum(computerSum + computerMove);
