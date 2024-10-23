@@ -53,7 +53,8 @@ function GamePlay(){
     const [humanSum, setHumanSum] = useState(0);
     const [computerSum, setComputerSum] = useState(0);
 
-    const [amountOfMatches, setAmountOfMatches] = useState(amountToSet);
+    // const [amountOfMatches, setAmountOfMatches] = useState(amountToSet);
+    const amountOfMatches = 25 - humanSum - computerSum;
 
     const [maximum, setMaximum] = useState(maxToSet);
 
@@ -102,7 +103,7 @@ function GamePlay(){
         //     return newAmount; // Return the new state
         // });
         const newAmount = amountOfMatches - userValueTakes;
-        setAmountOfMatches(newAmount);
+        // amountOfMatches -= userValueTakes;
         setHumanSum(humanSum + userValueTakes);
         await new Promise(resolve => setTimeout(resolve, 100));
 
@@ -121,7 +122,8 @@ function GamePlay(){
     const computerGo = async (can_go : boolean, amount : number) => {
         if(can_go){
         const computerMove = aiMove(maximum, amount, perelom, computerSum, humanSum, need_even);
-        setAmountOfMatches(amount-computerMove);
+        // setAmountOfMatches(amount-computerMove);
+        // amountOfMatches -= computerMove;
     
         setComputerSum(computerSum + computerMove);
     }
@@ -130,7 +132,8 @@ function GamePlay(){
     }
 
     const restart = () => {
-        setAmountOfMatches(amountToSet);
+        // setAmountOfMatches(amountToSet);
+        // amountOfMatches = 25;
         setComputerSum(0);
         setHumanSum(0);
         setMaximum(maxToSet);
